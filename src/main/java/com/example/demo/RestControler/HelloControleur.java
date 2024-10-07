@@ -1,4 +1,4 @@
-package com.example.demo.Controler;
+package com.example.demo.RestControler;
 
 import com.example.demo.Service.HelloService;
 import org.springframework.beans.factory.annotation.Autowired;
