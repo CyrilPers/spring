@@ -9,5 +9,4 @@ public class HelloService {
         return "Je suis la classe de service et je vous dis Bonjour";
     }
 
-
 }
