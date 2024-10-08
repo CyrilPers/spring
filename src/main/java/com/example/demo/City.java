@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @Builder
-public class Ville {
-    private String nom;
+public class City {
+    private String name;
     private Integer nbHabitants;
 }
