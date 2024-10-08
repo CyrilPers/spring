@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class City {
+    private Integer id;
     private String name;
     private Integer nbHabitants;
 }
