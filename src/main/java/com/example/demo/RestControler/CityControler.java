@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/villes")
+@RequestMapping("/cities")
 public class CityControler {
 
     @Autowired
@@ -27,7 +27,7 @@ public class CityControler {
         if (exists)
             return ResponseEntity.badRequest().body("La ville existe déjà");
         else
-            cities.add(cityToAdd);
+            villeSvc.add(cityToAdd);
         return ResponseEntity.ok("City insérée avec succès");
     }
 }
