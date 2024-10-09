@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/city")
@@ -21,32 +22,37 @@ public class CityControler {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<City> getCity(@PathVariable int id) throws Exception {
-        City city = citySvc.extractCity(id);
-        return ResponseEntity.ok(city);
+    public ResponseEntity<Optional<City>> getCity(@PathVariable int id) throws Exception {
+        Optional<City> city = citySvc.extractCity(id);
+        if (city.isPresent()) {
+            return ResponseEntity.ok(city);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/{cityName}")
-    public City getCity(@PathVariable String cityName) throws Exception  {
+    public Optional<City> getCity(@PathVariable String cityName) throws Exception  {
         return citySvc.extractCity(cityName);
     }
 
     @PostMapping("/add")
     public ResponseEntity<List<City>> addCity(@RequestBody City cityToAdd) throws Exception {
-        List<City> cities = citySvc.insertCity(cityToAdd);
+        citySvc.insertCity(cityToAdd);
+        List<City> cities = citySvc.extractCities();
         return ResponseEntity.ok(cities);
     }
 
 
-    @PutMapping("/{id}")
-    public ResponseEntity<List<City>> updateCity(@PathVariable int id, @RequestBody City cityToUpdate) throws Exception {
-        List<City> cities = citySvc.updateCity(id, cityToUpdate);
-        return ResponseEntity.badRequest().body(cities);
+    @PutMapping("/update")
+    public ResponseEntity<City> updateCity(@RequestBody City cityToUpdate) throws Exception {
+        City city = citySvc.updateCity(cityToUpdate);
+        return ResponseEntity.badRequest().body(city);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<List<City>> deleteCity(@PathVariable int id) throws Exception {
-        List<City> cities = citySvc.deleteCity(id);
+        citySvc.deleteCity(id);
+        List<City> cities = citySvc.extractCities();
         return ResponseEntity.ok(cities);
     }
 }

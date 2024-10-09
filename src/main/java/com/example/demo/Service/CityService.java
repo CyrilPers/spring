@@ -1,42 +1,43 @@
 package com.example.demo.Service;
 
-import com.example.demo.Dao.CityDao;
+import com.example.demo.Repositories.CityRepository;
 import com.example.demo.Entities.City;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CityService {
 
     @Autowired
-    CityDao dao;
+    CityRepository dao;
 
     public CityService() {
     }
 
     public List<City> extractCities() throws Exception {
-        return dao.getAllCities();
+        return dao.findBy();
     }
 
-    public City extractCity(String name) throws Exception {
-        return dao.getCityByName(name);
+    public Optional<City> extractCity(String name) throws Exception {
+        return dao.findByCityName(name);
     }
 
-    public City extractCity(int idCity) throws Exception {
-        return dao.getCityById(idCity);
+    public Optional<City> extractCity(int idCity) throws Exception {
+        return dao.findByCityId(idCity);
     }
 
-    public List<City> insertCity(City city) throws Exception {
-        return dao.insertCity(city);
+    public City insertCity(City city) throws Exception {
+        return dao.save(city);
     }
 
-    public List<City> updateCity(int idCity, City city) throws Exception {
-        return dao.modifyCity(idCity, city);
+    public City updateCity(City city) throws Exception {
+       return dao.save(city);
     }
 
-    public List<City> deleteCity(int idVille) throws Exception {
-        return dao.deleteCity(idVille);
+    public void deleteCity(int idVille) throws Exception {
+        dao.deleteById(idVille);
     }
 
 }
