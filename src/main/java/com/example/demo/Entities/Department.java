@@ -2,6 +2,7 @@ package com.example.demo.Entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -10,8 +11,8 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    @OneToMany
-    private List<City> cities;
+    @OneToMany(mappedBy = "department")
+    private List<City> cities = new ArrayList<>();
 
     public Integer getId() {
         return id;
