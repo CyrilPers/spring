@@ -32,8 +32,15 @@ public class CityService {
         return dao.save(city);
     }
 
-    public City updateCity(City city)  {
-       return dao.save(city);
+    public City updateCity(City city) throws Exception {
+        Optional<City> cityFromDb = dao.findById(city.getId());
+        if (cityFromDb.isPresent()) {
+            cityFromDb.get().setName(city.getName());
+            cityFromDb.get().setNbHabitants(city.getNbHabitants());
+            return dao.save(cityFromDb.orElse(null));
+        } else {
+            throw new Exception("Ville inconnue");
+        }
     }
 
     public void deleteCity(int idVille) {

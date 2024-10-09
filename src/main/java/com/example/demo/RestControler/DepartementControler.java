@@ -38,7 +38,7 @@ public class DepartementControler {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Departement> update(@RequestBody Departement department) {
+    public ResponseEntity<Departement> update(@RequestBody Departement department) throws Exception {
         Departement departement = departementSvc.updateDepartment(department);
         return ResponseEntity.ok(departement);
     }

@@ -31,8 +31,16 @@ public class DepartmentService {
         return dao.findBy();
     }
 
-    public Departement updateDepartment(Departement departement) {
-        return dao.save(departement);
+    public Departement updateDepartment(Departement departement) throws Exception {
+        Departement departementFromDb = dao.findById(departement.getId()).orElse(null);
+        if (departementFromDb != null) {
+            departementFromDb.setName(departement.getName());
+            departementFromDb.setCode(departement.getCode());
+            departementFromDb.setCities(departement.getCities());
+            return dao.save(departementFromDb);
+        } else {
+            throw new Exception("Departement inconnu");
+        }
     }
 
     public List<Departement> getAllDepartments()  {

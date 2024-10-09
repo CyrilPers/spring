@@ -44,7 +44,7 @@ public class CityControler {
 
 
     @PutMapping("/update")
-    public ResponseEntity<City> updateCity(@RequestBody City cityToUpdate) {
+    public ResponseEntity<City> updateCity(@RequestBody City cityToUpdate) throws Exception {
         City city = citySvc.updateCity(cityToUpdate);
         return ResponseEntity.badRequest().body(city);
     }
