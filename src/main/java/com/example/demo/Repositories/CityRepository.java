@@ -12,9 +12,9 @@ public interface CityRepository extends JpaRepository<City, Integer> {
 
     List<City> findBy();
 
-    Optional<City> findByCityName(String cityName);
+    Optional<City> findByName(String cityName);
 
-    Optional<City> findByCityId(Integer cityId);
+    Optional<City> findById(Integer cityId);
 
     City save(City city);
 

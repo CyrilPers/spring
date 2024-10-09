@@ -6,17 +6,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "departement")
-public class Department {
+public class Departement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "NOM")
     private String name;
-    @OneToMany(mappedBy = "department")
+    private String code;
+    @OneToMany(mappedBy = "departement")
     private List<City> cities = new ArrayList<>();
 
     public Integer getId() {
         return id;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public void setId(Integer id) {
@@ -39,7 +48,7 @@ public class Department {
         this.cities = cities;
     }
 
-    public Department() {
+    public Departement() {
 
     }
 }

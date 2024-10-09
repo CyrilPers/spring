@@ -16,10 +16,16 @@ public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "nom")
     private String name;
+    @Column(name = "nb_habs")
     private Integer nbHabitants;
     @ManyToOne
-    private Department department;
+    @JoinColumn(name = "id_dept")
+    private Departement departement;
+    @ManyToOne
+    @JoinColumn(name = "ID_REGION")
+    private Region region;
 
     public City() {
     }

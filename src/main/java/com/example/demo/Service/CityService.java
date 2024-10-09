@@ -16,27 +16,27 @@ public class CityService {
     public CityService() {
     }
 
-    public List<City> extractCities() throws Exception {
+    public List<City> extractCities() {
         return dao.findBy();
     }
 
-    public Optional<City> extractCity(String name) throws Exception {
-        return dao.findByCityName(name);
+    public Optional<City> extractCity(String name) {
+        return dao.findByName(name);
     }
 
-    public Optional<City> extractCity(int idCity) throws Exception {
-        return dao.findByCityId(idCity);
+    public Optional<City> extractCity(int idCity)  {
+        return dao.findById(idCity);
     }
 
-    public City insertCity(City city) throws Exception {
+    public City insertCity(City city)  {
         return dao.save(city);
     }
 
-    public City updateCity(City city) throws Exception {
+    public City updateCity(City city)  {
        return dao.save(city);
     }
 
-    public void deleteCity(int idVille) throws Exception {
+    public void deleteCity(int idVille) {
         dao.deleteById(idVille);
     }
 

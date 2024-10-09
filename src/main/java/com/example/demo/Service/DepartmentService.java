@@ -2,10 +2,11 @@ package com.example.demo.Service;
 
 import com.example.demo.Repositories.DepartmentRepository;
 import com.example.demo.Entities.City;
-import com.example.demo.Entities.Department;
+import com.example.demo.Entities.Departement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DepartmentService {
@@ -18,23 +19,31 @@ public class DepartmentService {
     }
 
     public List<City> getCitiesBetween(int min, int max, int idDepartement) {
-        return dao.findByDepartmentIdAndNbHabitantsBetween(idDepartement, min, max);
+        return dao.findByIdAndNbHabitantsBetween(idDepartement, min, max);
     }
 
-    public Department addDepartment(Department department) {
-        return dao.save(department);
+    public Departement addDepartment(Departement departement) {
+        return dao.save(departement);
     }
 
-    public List<Department> deleteDepartment(int idDepartment)  {
+    public List<Departement> deleteDepartment(int idDepartment)  {
         dao.deleteById(idDepartment);
         return dao.findBy();
     }
 
-    public Department updateDepartment(Department department) {
-        return dao.save(department);
+    public Departement updateDepartment(Departement departement) {
+        return dao.save(departement);
     }
 
-    public List<Department> getAllDepartments()  {
+    public List<Departement> getAllDepartments()  {
         return dao.findBy();
+    }
+
+    public List<Departement> getDepartementByName(String cityName) {
+        return dao.findByName(cityName);
+    }
+
+    public Optional<Departement> getDepartementById(int idDepartement) {
+        return dao.findById(idDepartement);
     }
 }

@@ -16,13 +16,13 @@ public class CityControler {
     private CityService citySvc;
 
     @GetMapping("/all")
-    public  ResponseEntity<List<City>> getCities() throws Exception {
+    public  ResponseEntity<List<City>> getCities()  {
         List<City> cities = citySvc.extractCities();
         return ResponseEntity.ok(cities);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<City>> getCity(@PathVariable int id) throws Exception {
+    public ResponseEntity<Optional<City>> getCity(@PathVariable int id)  {
         Optional<City> city = citySvc.extractCity(id);
         if (city.isPresent()) {
             return ResponseEntity.ok(city);
@@ -31,12 +31,12 @@ public class CityControler {
     }
 
     @GetMapping("/{cityName}")
-    public Optional<City> getCity(@PathVariable String cityName) throws Exception  {
+    public Optional<City> getCity(@PathVariable String cityName)   {
         return citySvc.extractCity(cityName);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<List<City>> addCity(@RequestBody City cityToAdd) throws Exception {
+    public ResponseEntity<List<City>> addCity(@RequestBody City cityToAdd) {
         citySvc.insertCity(cityToAdd);
         List<City> cities = citySvc.extractCities();
         return ResponseEntity.ok(cities);
@@ -44,13 +44,13 @@ public class CityControler {
 
 
     @PutMapping("/update")
-    public ResponseEntity<City> updateCity(@RequestBody City cityToUpdate) throws Exception {
+    public ResponseEntity<City> updateCity(@RequestBody City cityToUpdate) {
         City city = citySvc.updateCity(cityToUpdate);
         return ResponseEntity.badRequest().body(city);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<List<City>> deleteCity(@PathVariable int id) throws Exception {
+    public ResponseEntity<List<City>> deleteCity(@PathVariable int id) {
         citySvc.deleteCity(id);
         List<City> cities = citySvc.extractCities();
         return ResponseEntity.ok(cities);
