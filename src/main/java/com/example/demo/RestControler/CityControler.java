@@ -15,52 +15,38 @@ public class CityControler {
     private CityService citySvc;
 
     @GetMapping("/all")
-    public  ResponseEntity<List<City>> getCities() {
+    public  ResponseEntity<List<City>> getCities() throws Exception {
         List<City> cities = citySvc.extractCities();
-        if (cities == null) {
-            return ResponseEntity.badRequest().body(null);
-        }
         return ResponseEntity.ok(cities);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<City> getCity(@PathVariable int id) {
+    public ResponseEntity<City> getCity(@PathVariable int id) throws Exception {
         City city = citySvc.extractCity(id);
-        if (city == null) {
-            return ResponseEntity.badRequest().body(null);
-        }
         return ResponseEntity.ok(city);
     }
 
     @GetMapping("/{cityName}")
-    public City getCity(@PathVariable String cityName) {
+    public City getCity(@PathVariable String cityName) throws Exception  {
         return citySvc.extractCity(cityName);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<List<City>> addCity(@RequestBody City cityToAdd) {
+    public ResponseEntity<List<City>> addCity(@RequestBody City cityToAdd) throws Exception {
         List<City> cities = citySvc.insertCity(cityToAdd);
-        if (cities == null) {
-            return ResponseEntity.badRequest().body(null);
-        }
         return ResponseEntity.ok(cities);
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<List<City>> updateCity(@PathVariable int id, @RequestBody City cityToUpdate) {
+    public ResponseEntity<List<City>> updateCity(@PathVariable int id, @RequestBody City cityToUpdate) throws Exception {
         List<City> cities = citySvc.updateCity(id, cityToUpdate);
-        if (cities == null) {
-            return ResponseEntity.badRequest().body(null);
-        }
         return ResponseEntity.badRequest().body(cities);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<List<City>> deleteCity(@PathVariable int id) {
+    public ResponseEntity<List<City>> deleteCity(@PathVariable int id) throws Exception {
         List<City> cities = citySvc.deleteCity(id);
-        if (cities == null)
-            return ResponseEntity.badRequest().body(null);
         return ResponseEntity.ok(cities);
     }
 }

@@ -13,27 +13,27 @@ public class DepartmentService {
     @Autowired
     private DepartmentDao dao;
 
-    public List<City> getXBiggestCities(int nbCities, int idDepartement) {
+    public List<City> getXBiggestCities(int nbCities, int idDepartement) throws Exception {
         List<City> cities = dao.getXBiggestCities(nbCities, idDepartement);
         return cities;
     }
 
-    public List<City> getCitiesBetween(int min, int max, int idDepartement) {
+    public List<City> getCitiesBetween(int min, int max, int idDepartement) throws Exception {
         List<City> cities = dao.getCitiesBetween(min, max, idDepartement);
         return cities;
     }
 
-    public List<Department> addDepartment(Department department) {
+    public List<Department> addDepartment(Department department) throws Exception {
         List<Department> departements = dao.addDepartment(department);
         return departements;
     }
 
-    public List<Department> deleteDepartment(int idDepartment) {
+    public List<Department> deleteDepartment(int idDepartment) throws Exception {
         List<Department> departements = dao.deleteDepartment(idDepartment);
         return departements;
     }
 
-    public List<Department> updateDepartment(int id, Department department) {
+    public List<Department> updateDepartment(int id, Department department) throws Exception {
         List<Department> departements = dao.updateDepartment(id, department);
         return departements;
     }

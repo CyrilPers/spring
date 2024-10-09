@@ -17,38 +17,35 @@ public class CityDao {
     private EntityManager em;
 
     @Transactional
-    public List<City> getAllCities() {
+    public List<City> getAllCities() throws Exception {
         try {
             TypedQuery<City> query = em.createQuery("SELECT c FROM City c", City.class);
             return query.getResultList();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new Exception(e);
         }
-        return null;
     }
 
     @Transactional
-    public City getCityById(int id) {
+    public City getCityById(int id) throws Exception {
         try {
         return em.find(City.class, id);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new Exception(e);
         }
-        return null;
     }
 
     @Transactional
-    public City getCityByName(String name) {
+    public City getCityByName(String name) throws Exception {
         try {
         return em.find(City.class, name);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new Exception(e);
         }
-        return null;
     }
 
     @Transactional
-    public List<City> modifyCity(int idCity, City city) {
+    public List<City> modifyCity(int idCity, City city) throws Exception {
         try {
             City cityFromDb = em.find(City.class, idCity);
             if (cityFromDb != null) {
@@ -60,34 +57,31 @@ public class CityDao {
             }
             return null;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new Exception(e);
         }
-        return null;
     }
 
     @Transactional
-    public List<City> deleteCity(int idVille) {
+    public List<City> deleteCity(int idVille) throws Exception {
         try {
             City cityToDelete = em.find(City.class, idVille);
-            if (cityToDelete != null) {
-                em.remove(cityToDelete);
-                return getAllCities();
+            if (cityToDelete == null) {
+                throw new Exception("City not found");
             }
-            return null;
+            em.remove(cityToDelete);
+            return getAllCities();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new Exception(e);
         }
-        return null;
     }
 
     @Transactional
-    public List<City> insertCity(City city) {
+    public List<City> insertCity(City city) throws Exception {
         try {
             em.persist(city);
             return getAllCities();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new Exception(e);
         }
-        return null;
     }
 }
