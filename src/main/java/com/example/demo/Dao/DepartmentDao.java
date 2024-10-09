@@ -3,9 +3,9 @@ package com.example.demo.Dao;
 import com.example.demo.Entities.City;
 import com.example.demo.Entities.Department;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,9 +13,8 @@ import java.util.List;
 @Repository
 public class DepartmentDao {
 
-    @Autowired
+    @PersistenceContext
     EntityManager em;
-
 
     @Transactional
     public List<Department> getAllDepartments() throws Exception {
