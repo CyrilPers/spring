@@ -53,6 +53,7 @@ public class DepartmentDao {
         }
     }
 
+    @Transactional
     public List<Department> addDepartment(Department department) throws Exception {
         try {
         em.persist(department);
@@ -62,6 +63,7 @@ public class DepartmentDao {
         }
     }
 
+    @Transactional
     public Department findById(int idDepartement) throws Exception {
         try {
             Department department = em.find(Department.class, idDepartement);
@@ -72,6 +74,7 @@ public class DepartmentDao {
     }
 
 
+    @Transactional
     public List<Department> deleteDepartment(int idDepartment) throws Exception {
         try {
             Department departmentToDelete = findById(idDepartment);
@@ -85,6 +88,7 @@ public class DepartmentDao {
         }
     }
 
+    @Transactional
     public List<Department> updateDepartment(int id, Department department) throws Exception {
         try {
             Department departmentToUpdate = findById(id);

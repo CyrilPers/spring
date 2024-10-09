@@ -4,6 +4,7 @@ package com.example.demo.RestControler;
 import com.example.demo.Entities.City;
 import com.example.demo.Entities.Department;
 import com.example.demo.Service.DepartmentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +15,14 @@ import java.util.List;
 @RequestMapping("/departement")
 public class DepartementControler {
 
-    @AutoConfigureOrder
+    @Autowired
     DepartmentService departementSvc;
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Department>> getAllDepartments() throws Exception {
+        List<Department> departments = departementSvc.getAllDepartments();
+        return ResponseEntity.ok(departments);
+    }
 
     @PostMapping("/add")
     public ResponseEntity<List<Department>> add(@RequestBody Department department) throws Exception {

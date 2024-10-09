@@ -37,4 +37,9 @@ public class DepartmentService {
         List<Department> departements = dao.updateDepartment(id, department);
         return departements;
     }
+
+    public List<Department> getAllDepartments() throws Exception {
+        List<Department> departements = dao.getAllDepartments();
+        return departements;
+    }
 }
