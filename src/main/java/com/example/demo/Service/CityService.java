@@ -1,6 +1,8 @@
 package com.example.demo.Service;
 
-import com.example.demo.City;
+import com.example.demo.Dao.CityDao;
+import com.example.demo.Entities.City;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -9,25 +11,34 @@ import java.util.List;
 @Service
 public class CityService {
 
-    private List<City> cities =  new ArrayList<>();
+    @Autowired
+    CityDao dao;
 
     public CityService() {
-        cities.add(new City(1, "Montpellier", 200000));
-        cities.add(new City(2, "Paris", 100000));
-        cities.add(new City(3, "Lyon", 300000));
-        cities.add(new City(4, "Marseille", 400000));
-        cities.add(new City(5, "Nice", 500000));
-        cities.add(new City(6, "Toulouse", 600000));
-        cities.add(new City(7,"Bordeaux", 700000));
-        cities.add(new City(8,"Rennes", 800000));
-        cities.add(new City(9,"Nantes", 900000));
     }
 
-    public List<City> extractALl() {
-        return cities;
+    public List<City> extractCities() {
+        return dao.getAllCities();
     }
 
-    public void add(City cityToAdd) {
-        cities.add(cityToAdd);
+    public City extractCity(String name) {
+        return dao.getCityByName(name);
     }
+
+    public City extractCity(int idCity) {
+        return dao.getCityById(idCity);
+    }
+
+    public List<City> insertCity(City city) {
+        return dao.insertCity(city);
+    }
+
+    public List<City> updateCity(int idCity, City city) {
+        return dao.modifyCity(idCity, city);
+    }
+
+    public List<City> deleteCity(int idVille) {
+        return dao.deleteCity(idVille);
+    }
+
 }

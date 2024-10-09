@@ -1,34 +1,66 @@
 package com.example.demo.RestControler;
 
-import com.example.demo.City;
+import com.example.demo.Entities.City;
 import com.example.demo.Service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/cities")
+@RequestMapping("/city")
 public class CityControler {
 
     @Autowired
-    private CityService villeSvc;
+    private CityService citySvc;
 
-    @GetMapping
-    public List<City> getVilles() {
-        return villeSvc.extractALl();
+    @GetMapping("/all")
+    public  ResponseEntity<List<City>> getCities() {
+        List<City> cities = citySvc.extractCities();
+        if (cities == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        return ResponseEntity.ok(cities);
     }
 
-    @PostMapping
-    public ResponseEntity<String> addVille(@RequestBody City cityToAdd) {
-        List<City> cities = villeSvc.extractALl();
-        boolean exists = cities.stream().anyMatch(city -> city.getName().equals(cityToAdd.getName()));
-        if (exists)
-            return ResponseEntity.badRequest().body("La ville existe déjà");
-        else
-            villeSvc.add(cityToAdd);
-        return ResponseEntity.ok("City insérée avec succès");
+    @GetMapping("/{id}")
+    public ResponseEntity<City> getCity(@PathVariable int id) {
+        City city = citySvc.extractCity(id);
+        if (city == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        return ResponseEntity.ok(city);
+    }
+
+    @GetMapping("/{cityName}")
+    public City getCity(@PathVariable String cityName) {
+        return citySvc.extractCity(cityName);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<List<City>> addCity(@RequestBody City cityToAdd) {
+        List<City> cities = citySvc.insertCity(cityToAdd);
+        if (cities == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        return ResponseEntity.ok(cities);
+    }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<List<City>> updateCity(@PathVariable int id, @RequestBody City cityToUpdate) {
+        List<City> cities = citySvc.updateCity(id, cityToUpdate);
+        if (cities == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        return ResponseEntity.badRequest().body(cities);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<List<City>> deleteCity(@PathVariable int id) {
+        List<City> cities = citySvc.deleteCity(id);
+        if (cities == null)
+            return ResponseEntity.badRequest().body(null);
+        return ResponseEntity.ok(cities);
     }
 }
