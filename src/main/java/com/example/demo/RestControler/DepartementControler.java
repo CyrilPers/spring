@@ -5,7 +5,6 @@ import com.example.demo.Entities.City;
 import com.example.demo.Entities.Department;
 import com.example.demo.Service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
