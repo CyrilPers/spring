@@ -3,6 +3,7 @@ package com.example.demo.RestControler;
 import com.example.demo.Entities.City;
 import com.example.demo.Service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -16,9 +17,8 @@ public class CityControler {
     private CityService citySvc;
 
     @GetMapping("/all")
-    public  ResponseEntity<List<City>> getCities()  {
-        List<City> cities = citySvc.extractCities();
-        return ResponseEntity.ok(cities);
+    public  Page<City> getCities(@RequestParam int page, @RequestParam int size)  {
+        return citySvc.extractCities(page, size);
     }
 
     @GetMapping("/{id}")
@@ -30,29 +30,65 @@ public class CityControler {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/{cityName}")
+    @GetMapping("/cityName/{cityName}")
     public Optional<City> getCity(@PathVariable String cityName)   {
         return citySvc.extractCity(cityName);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<List<City>> addCity(@RequestBody City cityToAdd) {
-        citySvc.insertCity(cityToAdd);
-        List<City> cities = citySvc.extractCities();
-        return ResponseEntity.ok(cities);
+    public ResponseEntity<City> addCity(@RequestBody City cityToAdd) {
+       City city = citySvc.insertCity(cityToAdd);
+        return ResponseEntity.ok(city);
     }
 
 
     @PutMapping("/update")
-    public ResponseEntity<City> updateCity(@RequestBody City cityToUpdate) throws Exception {
-        City city = citySvc.updateCity(cityToUpdate);
-        return ResponseEntity.badRequest().body(city);
+    public ResponseEntity<List<City>> updateCity(@RequestBody City cityToUpdate) throws Exception {
+        citySvc.updateCity(cityToUpdate);
+        List<City> cities = citySvc.extractAllCities();
+        return ResponseEntity.badRequest().body(cities);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<List<City>> deleteCity(@PathVariable int id) {
         citySvc.deleteCity(id);
-        List<City> cities = citySvc.extractCities();
+        List<City> cities = citySvc.extractAllCities();
         return ResponseEntity.ok(cities);
     }
+
+    @GetMapping("/startBy/{startBy}")
+    public ResponseEntity<List<City>> findCity(@PathVariable String startBy) {
+        List<City> cities = citySvc.findCitiesStartBy(startBy);
+        return ResponseEntity.ok(cities);
+    }
+
+    @GetMapping("/minHabitant/{min}")
+    public ResponseEntity<List<City>> findCity(@PathVariable int min) {
+        List<City> cities = citySvc.findCitiesWithMinHabitants(min);
+        return ResponseEntity.ok(cities);
+    }
+
+    @GetMapping("/findMinMax")
+    public ResponseEntity<List<City>> findCityWithMinAndMaxHabitants(@RequestParam int min, @RequestParam int max) {
+        List<City> cities = citySvc.findCitiesWithMinAndMaxHabitants(min, max);
+        return ResponseEntity.ok(cities);
+    }
+
+    @GetMapping("/findMinByDpt")
+    public ResponseEntity<List<City>> findCityWithMinHabitantsInDepartement(@RequestParam int min, @RequestParam int dpt) {
+        List<City> cities = citySvc.findCitiesWithMinHabitantsAndDpt(min, dpt);
+        return ResponseEntity.ok(cities);
+    }
+
+    @GetMapping("/findMinMaxByDpt")
+    public ResponseEntity<List<City>> findCityWithMinAndMaxHabitantsInDepartement(@RequestParam int min, @RequestParam int max,  @RequestParam int idDpt) {
+        List<City> cities = citySvc.findCitiesWithMinAndMaxHabitantsInDepartement(min, max, idDpt);
+        return ResponseEntity.ok(cities);
+    }
+
+    @GetMapping("/pagination")
+    public Page<City> findCityWithMaxHabitantsMaxNbCities(@RequestParam int page, @RequestParam int size) {
+        return citySvc.findCitiesByPage(page, size);
+    }
+
 }

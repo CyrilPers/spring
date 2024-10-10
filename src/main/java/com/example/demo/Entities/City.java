@@ -19,7 +19,7 @@ public class City {
     @Column(name = "nom")
     private String name;
     @Column(name = "nb_habs")
-    private Integer nbHabitants;
+    private Integer nbHabitant;
     @ManyToOne
     @JoinColumn(name = "id_dept")
     private Departement departement;

@@ -1,5 +1,5 @@
 package com.example.demo.Entities;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -14,6 +14,7 @@ public class Departement {
     private String name;
     private String code;
     @OneToMany(mappedBy = "departement")
+    @JsonIgnore
     private List<City> cities = new ArrayList<>();
 
     public Integer getId() {

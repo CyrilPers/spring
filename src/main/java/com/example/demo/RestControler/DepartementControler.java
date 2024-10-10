@@ -49,12 +49,6 @@ public class DepartementControler {
         return ResponseEntity.ok(cities);
     }
 
-    @GetMapping("/getCitiesBetween")
-    public ResponseEntity<List<City>> getCitiesBetween(@RequestParam int min, @RequestParam int max, @RequestParam int idDepartement) {
-        List<City> cities = departementSvc.getCitiesBetween(min, max, idDepartement);
-        return ResponseEntity.ok(cities);
-    }
-
     @GetMapping("/getCityByName")
     public ResponseEntity<List<Departement>> getDepartementByName(@RequestParam String departementName) {
         List<Departement> departements = departementSvc.getDepartementByName(departementName);

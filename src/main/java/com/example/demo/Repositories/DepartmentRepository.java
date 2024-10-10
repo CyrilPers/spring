@@ -22,10 +22,6 @@ public interface DepartmentRepository extends JpaRepository<Departement, Integer
 
     void deleteById(Integer id);
 
-    @Query("SELECT c FROM Departement d JOIN City c ON c.departement = d WHERE d.id = :idDepartement ORDER BY c.nbHabitants DESC limit :nbCities")
+    @Query("SELECT c FROM Departement d JOIN City c ON c.departement = d WHERE d.id = :idDepartement ORDER BY c.nbHabitant DESC limit :nbCities")
     List<City> getXBiggestCities(int nbCities, int idDepartement);
-
-    @Query("SELECT c FROM Departement d JOIN City c ON c.departement = d WHERE d.id = :idDepartement AND c.nbHabitants between :nbHabitantsMin and :nbHabitantsMax ORDER BY c.nbHabitants DESC")
-    List<City> findByIdAndNbHabitantsBetween(Integer idDepartement, Integer nbHabitantsMin, Integer nbHabitantsMax);
-
 }
