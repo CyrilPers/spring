@@ -1,16 +1,16 @@
-package com.example.demo.RestControler;
+package com.example.demo.restControler;
 
-import com.example.demo.Dto.CityDto;
-import com.example.demo.Dto.CityMapper;
-import com.example.demo.Entities.City;
-import com.example.demo.Service.CityService;
+import com.example.demo.dto.CityDto;
+import com.example.demo.dtoMappers.CityMapper;
+import com.example.demo.entities.City;
+import com.example.demo.exceptions.FunctionalException;
+import com.example.demo.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/city")
@@ -49,7 +49,7 @@ public class CityControler {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<CityDto> addCity(@RequestBody City cityToAdd) {
+    public ResponseEntity<CityDto> addCity(@RequestBody City cityToAdd) throws FunctionalException {
        City city = citySvc.insertCity(cityToAdd);
        CityDto dto = cityMapper.toDto(city);
         return ResponseEntity.ok(dto);

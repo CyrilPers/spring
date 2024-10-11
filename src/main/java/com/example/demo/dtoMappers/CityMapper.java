@@ -1,7 +1,8 @@
-package com.example.demo.Dto;
+package com.example.demo.dtoMappers;
 
-import com.example.demo.Entities.City;
-import com.example.demo.Entities.Departement;
+import com.example.demo.dto.CityDto;
+import com.example.demo.entities.City;
+import com.example.demo.entities.Departement;
 import org.springframework.stereotype.Component;
 
 @Component

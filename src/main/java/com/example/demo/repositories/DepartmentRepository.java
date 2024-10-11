@@ -1,7 +1,7 @@
-package com.example.demo.Repositories;
+package com.example.demo.repositories;
 
-import com.example.demo.Entities.City;
-import com.example.demo.Entities.Departement;
+import com.example.demo.entities.City;
+import com.example.demo.entities.Departement;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -24,4 +24,6 @@ public interface DepartmentRepository extends JpaRepository<Departement, Integer
 
     @Query("SELECT c FROM Departement d JOIN City c ON c.departement = d WHERE d.id = :idDepartement ORDER BY c.nbHabitant DESC limit :nbCities")
     List<City> getXBiggestCities(int nbCities, int idDepartement);
+
+    Departement findByCode(String code);
 }

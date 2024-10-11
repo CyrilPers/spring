@@ -1,7 +1,8 @@
-package com.example.demo.Service;
+package com.example.demo.service;
 
-import com.example.demo.Repositories.CityRepository;
-import com.example.demo.Entities.City;
+import com.example.demo.exceptions.FunctionalException;
+import com.example.demo.repositories.CityRepository;
+import com.example.demo.entities.City;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,11 +33,25 @@ public class CityService {
         return repo.findById(idCity);
     }
 
-    public City insertCity(City city)  {
+    public City insertCity(City city) throws FunctionalException {
+        checkCity(city);
         return repo.save(city);
     }
 
+    private void checkCity(City city) throws FunctionalException {
+        if (city.getNbHabitant() < 10)
+            throw new FunctionalException("La ville doit avoir au moins 10 habitants");
+        if (city.getName().length() < 3)
+            throw new FunctionalException("Le nom de la ville doit contenir plus de 2 lettres");
+        if (city.getDepartement().getCode().length() != 2)
+            throw new FunctionalException("Le code du département doit être de 2 caractères");
+        City existingCityInDpt = repo.findByNameAndDepartementId(city.getName(), city.getDepartement().getId());
+        if (existingCityInDpt != null)
+            throw new FunctionalException("Le nom de la ville doit être unique dans le département");
+    }
+
     public City updateCity(City city) throws Exception {
+        checkCity(city);
         Optional<City> cityFromDb = repo.findById(city.getId());
         if (cityFromDb.isPresent()) {
             cityFromDb.get().setName(city.getName());

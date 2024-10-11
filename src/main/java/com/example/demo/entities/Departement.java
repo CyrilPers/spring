@@ -1,5 +1,4 @@
-package com.example.demo.Entities;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+package com.example.demo.entities;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;

@@ -1,9 +1,10 @@
-package com.example.demo.RestControler;
+package com.example.demo.restControler;
 
 
-import com.example.demo.Entities.City;
-import com.example.demo.Entities.Departement;
-import com.example.demo.Service.DepartmentService;
+import com.example.demo.entities.City;
+import com.example.demo.entities.Departement;
+import com.example.demo.exceptions.FunctionalException;
+import com.example.demo.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class DepartementControler {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<List<Departement>> add(@RequestBody Departement departement) {
+    public ResponseEntity<List<Departement>> add(@RequestBody Departement departement) throws FunctionalException {
         departementSvc.addDepartment(departement);
         List<Departement> departements = departementSvc.getAllDepartments();
         return ResponseEntity.ok(departements);
@@ -52,10 +53,7 @@ public class DepartementControler {
     @GetMapping("/getCityByName")
     public ResponseEntity<List<Departement>> getDepartementByName(@RequestParam String departementName) {
         List<Departement> departements = departementSvc.getDepartementByName(departementName);
-        if (departements.size() > 0) {
             return ResponseEntity.ok(departements);
-        }
-        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/getDepartementById")

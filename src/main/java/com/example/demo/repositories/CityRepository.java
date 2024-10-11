@@ -1,6 +1,6 @@
-package com.example.demo.Repositories;
+package com.example.demo.repositories;
 
-import com.example.demo.Entities.City;
+import com.example.demo.entities.City;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,6 +26,8 @@ public interface CityRepository extends JpaRepository<City, Integer> {
     List<City> findByNameStartingWith(String startBy);
 
     List<City> findBynbHabitantGreaterThanEqual(int min);
+
+    City findByNameAndDepartementId(String name, int idDepartement);
 
     List<City> findByNbHabitantGreaterThanEqualAndNbHabitantLessThanEqual(int min, int max);
 
