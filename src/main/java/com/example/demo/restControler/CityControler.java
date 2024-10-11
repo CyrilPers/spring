@@ -73,35 +73,35 @@ public class CityControler {
     }
 
     @GetMapping("/startBy/{startBy}")
-    public ResponseEntity<List<CityDto>> findCity(@PathVariable String startBy) {
+    public ResponseEntity<List<CityDto>> findCity(@PathVariable String startBy) throws FunctionalException {
         List<City> cities = citySvc.findCitiesStartBy(startBy);
         List<CityDto> dtos = cities.stream().map(cityMapper::toDto).toList();
         return ResponseEntity.ok(dtos);
     }
 
     @GetMapping("/minHabitant/{min}")
-    public ResponseEntity<List<CityDto>> findCity(@PathVariable int min) {
+    public ResponseEntity<List<CityDto>> findCity(@PathVariable int min) throws FunctionalException {
         List<City> cities = citySvc.findCitiesWithMinHabitants(min);
         List<CityDto> dtos = cities.stream().map(cityMapper::toDto).toList();
         return ResponseEntity.ok(dtos);
     }
 
     @GetMapping("/findMinMax")
-    public ResponseEntity<List<CityDto>> findCityWithMinAndMaxHabitants(@RequestParam int min, @RequestParam int max) {
+    public ResponseEntity<List<CityDto>> findCityWithMinAndMaxHabitants(@RequestParam int min, @RequestParam int max) throws FunctionalException {
         List<City> cities = citySvc.findCitiesWithMinAndMaxHabitants(min, max);
         List<CityDto> dtos = cities.stream().map(cityMapper::toDto).toList();
         return ResponseEntity.ok(dtos);
     }
 
     @GetMapping("/findMinByDpt")
-    public ResponseEntity<List<CityDto>> findCityWithMinHabitantsInDepartement(@RequestParam int min, @RequestParam int dpt) {
+    public ResponseEntity<List<CityDto>> findCityWithMinHabitantsInDepartement(@RequestParam int min, @RequestParam int dpt) throws FunctionalException {
         List<City> cities = citySvc.findCitiesWithMinHabitantsAndDpt(min, dpt);
         List<CityDto> dtos = cities.stream().map(cityMapper::toDto).toList();
         return ResponseEntity.ok(dtos);
     }
 
     @GetMapping("/findMinMaxByDpt")
-    public ResponseEntity<List<CityDto>> findCityWithMinAndMaxHabitantsInDepartement(@RequestParam int min, @RequestParam int max,  @RequestParam int idDpt) {
+    public ResponseEntity<List<CityDto>> findCityWithMinAndMaxHabitantsInDepartement(@RequestParam int min, @RequestParam int max,  @RequestParam int idDpt) throws FunctionalException {
         List<City> cities = citySvc.findCitiesWithMinAndMaxHabitantsInDepartement(min, max, idDpt);
         List<CityDto> dtos = cities.stream().map(cityMapper::toDto).toList();
         return ResponseEntity.ok(dtos);

@@ -66,24 +66,39 @@ public class CityService {
         repo.deleteById(idVille);
     }
 
-    public List<City> findCitiesStartBy(String startBy) {
-        return repo.findByNameStartingWith(startBy);
+    public List<City> findCitiesStartBy(String startBy) throws FunctionalException {
+        List<City> cities = repo.findByNameStartingWith(startBy);
+        if (cities.isEmpty())
+            throw new FunctionalException("Aucune ville dont le nom commence par nom n’a été trouvée");
+        return cities;
     }
 
-    public List<City> findCitiesWithMinHabitants(int min) {
-        return repo.findBynbHabitantGreaterThanEqual(min);
+    public List<City> findCitiesWithMinHabitants(int min) throws FunctionalException {
+        List<City> cities = repo.findBynbHabitantGreaterThanEqual(min);
+        if (cities.isEmpty())
+            throw new FunctionalException("Aucune ville n’a une population supérieure" + min);
+        return cities;
     }
 
-    public List<City> findCitiesWithMinAndMaxHabitants(int min, int max) {
-        return repo.findByNbHabitantGreaterThanEqualAndNbHabitantLessThanEqual(min, max);
+    public List<City> findCitiesWithMinAndMaxHabitants(int min, int max) throws FunctionalException {
+        List<City> cities = repo.findByNbHabitantGreaterThanEqualAndNbHabitantLessThanEqual(min, max);
+        if (cities.isEmpty())
+            throw new FunctionalException("Aucune ville n’a une population entre " + min + " et " + max);
+        return cities;
     }
 
-    public List<City> findCitiesWithMinHabitantsAndDpt(int min, int dpt) {
-        return repo.findBynbHabitantGreaterThanEqualAndDepartementId(min, dpt);
+    public List<City> findCitiesWithMinHabitantsAndDpt(int min, int dpt) throws FunctionalException {
+        List<City> cities = repo.findBynbHabitantGreaterThanEqualAndDepartementId(min, dpt);
+        if (cities.isEmpty())
+            throw new FunctionalException("Aucune ville n’a une population supérieure à " + min + " et appartient au département " + dpt);
+        return cities;
     }
 
-    public List<City> findCitiesWithMinAndMaxHabitantsInDepartement(int min, int max, int idDepartement) {
-        return repo.findByDepartementIdAndNbHabitantBetween(idDepartement, min, max);
+    public List<City> findCitiesWithMinAndMaxHabitantsInDepartement(int min, int max, int idDepartement) throws FunctionalException {
+        List<City> cities = repo.findByDepartementIdAndNbHabitantBetween(idDepartement, min, max);
+        if (cities.isEmpty())
+            throw new FunctionalException("Aucune ville n’a une population entre " + min + " et " + max + " dans le departement département " + idDepartement);
+        return cities;
     }
 
 
