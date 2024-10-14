@@ -6,12 +6,6 @@
 </head>
 <body>
 <h1 th:text="${message}"></h1>
-<h2>City list:</h2>
-<ul>
-    <li th:each="city : ${cities}">
-        <span th:text="${city.name}"></span>
-        <span th:text="${city.nbHabitant} + ' ' + residents"></span>
-    </li>
-</ul>
+<a href="/citylist">City list</a>
 </body>
 </html>

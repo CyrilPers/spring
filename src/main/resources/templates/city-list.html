@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>City list</title>
+</head>
+<body>
+<h2 th:text="${message}"></h2>
+
+<ul>
+    <li th:each="city : ${cities}">
+        <span th:text="${city.name}"></span>
+        <span th:text="${city.nbHabitant} + ' ' + residents"></span>
+    </li>
+</ul>
+
+</body>
+</html>
