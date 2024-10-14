@@ -1,13 +1,20 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.CityDto;
 import com.example.demo.exceptions.FunctionalException;
 import com.example.demo.repositories.CityRepository;
 import com.example.demo.entities.City;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -29,13 +36,15 @@ public class CityService {
         return repo.findByName(name);
     }
 
-    public Optional<City> extractCity(int idCity)  {
+    public Optional<City> extractCity(int idCity) {
         return repo.findById(idCity);
     }
 
-    public City insertCity(City city) throws FunctionalException {
+
+    public List<City> insertCity(City city) throws FunctionalException {
         checkCity(city);
-        return repo.save(city);
+        repo.save(city);
+        return repo.findBy();
     }
 
     private void checkCity(City city) throws FunctionalException {

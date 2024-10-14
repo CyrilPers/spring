@@ -5,10 +5,16 @@ import com.example.demo.dtoMappers.CityMapper;
 import com.example.demo.entities.City;
 import com.example.demo.exceptions.FunctionalException;
 import com.example.demo.service.CityService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -23,12 +29,12 @@ public class CityControler {
     private CityMapper cityMapper;
 
     @GetMapping("/all")
-    public  Page<City> getCities(@RequestParam int page, @RequestParam int size)  {
+    public Page<City> getCities(@RequestParam int page, @RequestParam int size) {
         return citySvc.extractCities(page, size);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<CityDto>> getCity(@PathVariable int id)  {
+    public ResponseEntity<Optional<CityDto>> getCity(@PathVariable int id) {
         Optional<City> city = citySvc.extractCity(id);
         if (city.isPresent()) {
             CityDto dto = cityMapper.toDto(city.get());
@@ -38,7 +44,7 @@ public class CityControler {
     }
 
     @GetMapping("/cityName/{cityName}")
-    public ResponseEntity<Optional<CityDto>>  getCity(@PathVariable String cityName)   {
+    public ResponseEntity<Optional<CityDto>> getCity(@PathVariable String cityName) {
         Optional<City> city = citySvc.extractCity(cityName);
         if (city.isPresent()) {
             CityDto dto = cityMapper.toDto(city.get());
@@ -48,11 +54,20 @@ public class CityControler {
         return ResponseEntity.notFound().build();
     }
 
+    @Operation(summary = "Création d'une nouvelle ville")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Retourne la liste des villes incluant la dernière ville créée",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = CityDto.class))}),
+            @ApiResponse(responseCode = "400", description = "Si une règle métier n'est pas respectée.",
+                    content = @Content)})
     @PostMapping("/add")
-    public ResponseEntity<CityDto> addCity(@RequestBody City cityToAdd) throws FunctionalException {
-       City city = citySvc.insertCity(cityToAdd);
-       CityDto dto = cityMapper.toDto(city);
-        return ResponseEntity.ok(dto);
+    public ResponseEntity<List<CityDto>> addCity(@RequestBody City cityToAdd) throws FunctionalException {
+        citySvc.insertCity(cityToAdd);
+        List<City> cities = citySvc.extractAllCities();
+        List<CityDto> dtos = cities.stream().map(cityMapper::toDto).toList();
+        return ResponseEntity.ok(dtos);
     }
 
 
@@ -101,7 +116,7 @@ public class CityControler {
     }
 
     @GetMapping("/findMinMaxByDpt")
-    public ResponseEntity<List<CityDto>> findCityWithMinAndMaxHabitantsInDepartement(@RequestParam int min, @RequestParam int max,  @RequestParam int idDpt) throws FunctionalException {
+    public ResponseEntity<List<CityDto>> findCityWithMinAndMaxHabitantsInDepartement(@RequestParam int min, @RequestParam int max, @RequestParam int idDpt) throws FunctionalException {
         List<City> cities = citySvc.findCitiesWithMinAndMaxHabitantsInDepartement(min, max, idDpt);
         List<CityDto> dtos = cities.stream().map(cityMapper::toDto).toList();
         return ResponseEntity.ok(dtos);
