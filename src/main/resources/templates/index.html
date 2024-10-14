@@ -10,7 +10,7 @@
 <ul>
     <li th:each="city : ${cities}">
         <span th:text="${city.name}"></span>
-        <span th:text="${city.nbHabitant} + residents"></span>
+        <span th:text="${city.nbHabitant} + ' ' + residents"></span>
     </li>
 </ul>
 </body>
