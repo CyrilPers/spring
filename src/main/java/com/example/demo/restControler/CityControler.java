@@ -11,10 +11,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -126,5 +131,22 @@ public class CityControler {
     public Page<CityDto> findCityWithMaxHabitantsMaxNbCities(@RequestParam int page, @RequestParam int size) {
         Page<City> cities = citySvc.findCitiesByPage(page, size);
         return cities.map(cityMapper::toDto);
+    }
+
+    @GetMapping("/getCsv/{minHabitants}")
+    public ResponseEntity<InputStreamResource> getCsv(@PathVariable int minHabitants) throws Exception {
+
+        String csvContent = citySvc.getCsv(minHabitants);
+
+        try {
+            InputStreamResource resource = new InputStreamResource(new ByteArrayInputStream(csvContent.getBytes()));
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=cities.csv")
+                    .contentType(MediaType.parseMediaType("application/csv"))
+                    .body(resource);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

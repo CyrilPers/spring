@@ -18,6 +18,9 @@ public class CityService {
     @Autowired
     CityRepository repo;
 
+    @Autowired
+    DepartmentService departementSvc;
+
     public CityService() {
     }
 
@@ -112,5 +115,24 @@ public class CityService {
 
     public List<City> extractAllCities() {
         return repo.findBy();
+    }
+
+    public String getCsv(int minHabitants) {
+
+        List<City> cities = repo.findBynbHabitantGreaterThanEqual(minHabitants);
+
+        String CSV_HEADER = "cityName,nbHabitants,codeDepartement, nameDepartement";
+
+        StringBuilder csvContent = new StringBuilder();
+        csvContent.append(CSV_HEADER);
+
+        for (City city : cities) {
+            String departementName = departementSvc.getDepartementName(city.getDepartement().getCode());
+            csvContent.append(city.getName()).append(",")
+                    .append(city.getNbHabitant()).append(",")
+                    .append(city.getDepartement().getCode()).append(",")
+                    .append(departementName);
+        }
+        return csvContent.toString();
     }
 }

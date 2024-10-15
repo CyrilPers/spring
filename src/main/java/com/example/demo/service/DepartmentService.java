@@ -1,11 +1,18 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.DepartementFromApiDto;
+import com.example.demo.dto.DepartmentDto;
 import com.example.demo.exceptions.FunctionalException;
 import com.example.demo.repositories.DepartmentRepository;
 import com.example.demo.entities.City;
 import com.example.demo.entities.Departement;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestTemplate;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +21,10 @@ public class DepartmentService {
 
     @Autowired
     private DepartmentRepository repo;
+
+    private RestClient restClient;
+    @Autowired
+    private RestTemplate restTemplate;
 
     public List<City> getXBiggestCities(int nbCities, int idDepartement) {
         return repo.getXBiggestCities(nbCities, idDepartement);
@@ -62,5 +73,13 @@ public class DepartmentService {
 
     public Optional<Departement> getDepartementById(int idDepartement) {
         return repo.findById(idDepartement);
+    }
+
+    public String getDepartementName (String codeDepartement) {
+
+        String url = "https://geo.api.gouv.fr/departements/" + codeDepartement;
+        ResponseEntity<DepartementFromApiDto> departement = restTemplate.getForEntity(url, DepartementFromApiDto.class);
+        DepartementFromApiDto departementFromApiDto = departement.getBody();
+        return departementFromApiDto.getNom();
     }
 }
