@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -68,8 +69,14 @@ public class CityService {
         }
     }
 
-    public void deleteCity(int idVille) {
-        repo.deleteById(idVille);
+    @PreAuthorize("hasRole('ADMIN')")
+    public Boolean deleteCity(int idVille) {
+        Optional <City> cityFromDb = repo.findById(idVille);
+        if (cityFromDb.isPresent()) {
+            repo.deleteById(idVille);
+            return true;
+        }
+        return false;
     }
 
     public List<City> findCitiesStartBy(String startBy) throws FunctionalException {

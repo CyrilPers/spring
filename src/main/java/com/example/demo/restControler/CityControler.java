@@ -84,12 +84,9 @@ public class CityControler {
         return ResponseEntity.badRequest().body(dtos);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<List<CityDto>> deleteCity(@PathVariable int id) {
-        citySvc.deleteCity(id);
-        List<City> cities = citySvc.extractAllCities();
-        List<CityDto> dtos = cities.stream().map(cityMapper::toDto).toList();
-        return ResponseEntity.ok(dtos);
+    @GetMapping("/delete/{id}")
+    public Boolean deleteCity(@PathVariable int id) {
+        return citySvc.deleteCity(id);
     }
 
     @GetMapping("/startBy/{startBy}")

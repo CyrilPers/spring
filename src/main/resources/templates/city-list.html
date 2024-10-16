@@ -11,6 +11,7 @@
     <li th:each="city : ${cities}">
         <span th:text="${city.name}"></span>
         <span th:text="${city.nbHabitant} + ' ' + residents"></span>
+        <a th:href="@{/city/delete/{id}(id=${city.id})}">Delete</a>
     </li>
 </ul>
 

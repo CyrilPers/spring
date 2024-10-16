@@ -33,4 +33,5 @@ public class UserAccount {
                 .map(SimpleGrantedAuthority::new)
                 .map(GrantedAuthority.class::cast).toList();
     }
+
 }
